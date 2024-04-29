@@ -1,0 +1,16 @@
+Date Table
+
+Calendar = CALENDAR(MIN(Data[Accident Date]),MAX(Data[Accident Date]))
+Year = YEAR('Calendar'[Date])
+Month = FORMAT('Calendar'[Date],"MMM")
+Month Number = MONTH('Calendar'[Date])
+
+MEasures :
+
+CY Accident Count = TOTALYTD(COUNT(Data[Accident_Index]),'Calendar'[Date])
+CY Casulaties = TOTALYTD(SUM(Data[Number_of_Casualties]),'Calendar'[Date])
+PY Accident Count = CALCULATE(COUNT(Data[Accident_Index]),SAMEPERIODLASTYEAR('Calendar'[Date]))
+PY Casulaties = CALCULATE(SUM(Data[Number_of_Casualties]),SAMEPERIODLASTYEAR('Calendar'[Date]))
+YoY ACCIDNETS Count = ([CY Accident Count]-[PY Accident Count])/[PY Accident Count]
+YoY Casulaties = ([CY Casulaties]-[PY Casulaties])/[PY Casulaties]
+
