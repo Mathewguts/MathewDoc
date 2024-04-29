@@ -1,0 +1,55 @@
+Avg Price = SUM(car_data[Price ($)]) / COUNT(car_data[Car_id])
+
+Avg Price Color = IF([Avg Price Diff] >0,"Green","Red")
+
+Avg Price Diff = [YTD Avg Price] - [PYTD Avg Price]
+
+Cars Sold color = IF(car_data[Cars Sold Diff]>0,"Green","Red")
+
+Cars Sold Diff = [YTD Cars Sold] - [PYTD Cars Sold]
+
+Max Point = IF(MAXX(ALLSELECTED('Calendar Table'[Weeknum]),[Total sales]) = [Total sales], 
+MAXX(ALLSELECTED('Calendar Table'[Weeknum]),[Total sales]), blank())
+
+MTD Avg Price = TOTALMTD([Avg Price],'Calendar Table'[Date])
+
+MTD Avg Price KPI = CONCATENATE("MTD Avg Price : ", FORMAT([MTD Avg Price] / 1000, "$0.00K"))
+
+MTD cars sold = TOTALMTD(COUNT(car_data[Car_id]),'Calendar Table'[Date])
+
+MTD cars sold KPI = CONCATENATE("MTD Cars Sold : ", FORMAT([MTD cars sold] / 1000, "$0.00K"))
+
+MTD KPI = CONCATENATE("MTD Total Sales : ", FORMAT([MTD Total Sales] / 1000000, "$0.00M"))
+
+MTD Total Sales = TOTALMTD(SUM(car_data[Price ($)]),'Calendar Table'[Date].[Date])
+
+Price ($) average per Car_id = 
+AVERAGEX(
+	KEEPFILTERS(VALUES('car_data'[Car_id])),
+	CALCULATE(SUM('car_data'[Price ($)]))
+
+Price Color = if([Avg Price Diff]>0, "Green","Red")
+
+PY Total Sales = CALCULATE(SUM(car_data[Price ($)]),SAMEPERIODLASTYEAR('Calendar Table'[Date]))
+
+PYTD Avg Price = CALCULATE([Avg Price],SAMEPERIODLASTYEAR('Calendar Table'[Date]))
+
+PYTD Cars Sold = CALCULATE(COUNT(car_data[Car_id]), SAMEPERIODLASTYEAR('Calendar Table'[Date]))
+
+Sales Diff = [YTD Total Sales]-[PY Total Sales]
+
+Sales Diff color = IF([Sales Diff]>0,"Green","Red")
+
+Total sales = SUM(car_data[Price ($)])
+
+YoY Avg Price growth = [Avg Price Diff]/[PYTD Avg Price]
+
+YoY Cars sold Growth = [Cars Sold Diff] / [YTD Cars Sold]
+
+YoY Sales Growth = [Sales Diff] / [PY Total Sales]
+
+YTD Avg Price = TOTALYTD([Avg Price], 'Calendar Table'[Date])
+
+YTD Cars Sold = TOTALYTD(COUNT(car_data[Car_id]),'Calendar Table'[Date].[Date])
+
+YTD Total Sales = TOTALYTD(SUM(car_data[Price ($)]),'Calendar Table'[Date])
